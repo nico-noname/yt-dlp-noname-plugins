@@ -114,15 +114,23 @@ class OtobananaUserCastIE(OtobananaBaseIE):
                 info = self._parse_cast_data(entry, floor, cast_id)
                 info["webpage_url"] = f"https://otobanana.com/{floor}/cast/{cast_id}"
                 info["extractor_key"] = OtobananaIE.ie_key()
+                info["extractor"] = OtobananaIE.IE_NAME
+                info["original_url"] = info["webpage_url"] 
                 yield info
             next_page_url = url_or_none(res_data.get("next_page_url"))
             req_num += 1
 
     def _real_extract(self, url):
         floor, user_id = self._match_valid_url(url).group("floor", "id")
+        user_info = self._download_json(
+            f"https://api.v2.otobanana.com/api/users/{user_id}", user_id, note=f"Downloading User JSON metadata")
         params = urllib.parse.urlencode(
             {"is_adult": "true" if floor == "deep" else "false"})
         entries = self._entries(
             f"https://api.v2.otobanana.com/api/users/{user_id}/casts?{params}", floor, user_id)
 
-        return self.playlist_result(entries, user_id)
+        return self.playlist_result(
+            entries,
+            playlist_id=user_id,
+            thumbnails=[{"url": user_info.get("avatar_url")}],
+        )
