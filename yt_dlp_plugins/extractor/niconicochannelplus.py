@@ -331,33 +331,7 @@ class NicoChannelBaseIE(InfoExtractor):
 class NiconicoChannelPlusIE(NicoChannelBaseIE):
     IE_NAME = 'NiconicoChannelPlus'
     IE_DESC = 'ニコニコチャンネルプラス'
-    _DOMAINS = [
-        #platform
-        "nicochannel.jp",
-        "sheeta.jp",
-        "qlover.jp",
-        "sapocia.com",
-        "audee-membership.jp",
-        "bayfm-channel.jp",
-        #custom domain
-        "rizuna-official.com",
-        "uise-official.com",
-        "kemomimirefle.net",
-        "tenshi-nano.com",
-        "hoshino-supika.com",
-        "nightmare-salon.com",
-        "honda-poko.com",
-        "nekoda-pepero.com",
-        "muneatsu-fc.com",
-        "rnqq.jp",
-        "malice-kibana.com",
-        "canan8181.com",
-        "yamingfc.net",
-        "riruru-official.com",
-    ]
-    _DOMAIN_RE = "|".join(map(re.escape, _DOMAINS))
     _VALID_URL = r'https?://nicochannel\.jp/(?P<channel>[\w.-]+)/(?:video|live)/(?P<code>sm\w+)'
-    _VALID_URL = rf"https?://(?P<domain>{_DOMAIN_RE})/(?:(?P<channel>[^/]+)/)?(?:video|audio|live)/(?P<code>sm\w+)"
     _TESTS = [{
         'note': 'CHPL',
         'url': 'https://nicochannel.jp/renge/video/smjHSEPCxd4ohY4zg8iyGKnX',
